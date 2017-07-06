@@ -67,11 +67,11 @@ class Calendar extends React.Component {
     let days = [];
 
     for(let i=0; i<7; i++) {
-      let day = this.state.days.filter(event=> (event.event[0].startDate.getHours()==hour && event.event[0].startDate.getDay()==i));
+      let day = this.state.days.filter(event=> (event.event[0].startDate.getHours()===parseInt(hour, 10) && event.event[0].startDate.getDay()===i));
       if(day[0] !== undefined)
-        days.push(<td>{day[0].item}</td>);
+        days.push(<td key={i}>{day[0].item}</td>);
       else
-        days.push(<td onDragOver={this.onDragOver.bind(this)}><span id="hour" hidden="true">{hour}</span><span id="day" hidden="true">{i+8}</span></td>);
+        days.push(<td key={i} onDragOver={this.onDragOver.bind(this)}><span id="hour" hidden="true">{hour}</span><span id="day" hidden="true">{i+8}</span></td>);
     }
 
     return (

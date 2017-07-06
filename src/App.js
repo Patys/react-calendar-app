@@ -53,20 +53,26 @@ class App extends Component {
   }
 
   updateData(data) {
-    let newData = this.state.data.filter(d => d.id === parseInt(data.id));
-    let newTime = new Date(newData[0].start_time);
-    let endTime = new Date(newData[0].end_time);
-    newTime.setHours(parseInt(data.data.hour));
-    newTime.setDate(data.data.day);
-    endTime.setHours(parseInt(data.data.hour+1));
-    endTime.setDate(data.data.day);
-    newData[0].start_time = newTime.toISOString();
-    newData[0].end_time = endTime.toISOString();
-    console.log(newData);
+    let radix = 10;
 
-    let newArr = this.state.data.filter(d => d.id !== parseInt(data.id));
-    newArr.push(...newData);
-    console.log(newArr);
+    // find droped element
+    let droped = this.state.data.filter(d => d.id === parseInt(data.id, radix));
+
+    // create new start_time
+    let newTime = new Date(droped[0].start_time);
+    newTime.setHours(parseInt(data.data.hour, radix));
+    newTime.setDate(data.data.day);
+
+    // create new end_time
+    let endTime = new Date(droped[0].end_time);
+    endTime.setHours(parseInt(data.data.hour, radix)+1);
+    endTime.setDate(data.data.day);
+
+    droped[0].start_time = newTime.toISOString();
+    droped[0].end_time = endTime.toISOString();
+
+    let newArr = this.state.data.filter(d => d.id !== parseInt(data.id, radix));
+    newArr.push(...droped);
     this.setState({data: newArr});
   }
 
