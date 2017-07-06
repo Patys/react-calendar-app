@@ -9,6 +9,24 @@ class Calendar extends React.Component {
     ]
   }
 
+  onDragEnd(e) {
+    // console.log(e.target.innerHTML);
+  }
+
+  onDragStart(e) {
+    // console.log(e.target.innerHTML);
+  }
+
+  onDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault(); // Necessary. Allows us to drop.
+    }
+    e.dataTransfer.dropEffect = 'move';
+    console.log(e.target.attributes);
+
+    return false;
+  }
+
   createEvents() {
     let events = [];
     let days = [1,2,3,4,5,6,7];
@@ -26,12 +44,12 @@ class Calendar extends React.Component {
 
     let items = days.reduce((arr,day) => {
       let event = events.filter(event => event.day === day);
-      console.log(event);
+      // console.log(event);
       if(event[0])
         // arr.push(<div className="day" key={day}><div className="event q4 past" draggable="true"><p className="hours">{event.startDate} - {event.endDate}</p><p className="description">{event.firstname} {event.lastname}</p><span className="icon"></span></div><div>);
-        arr.push(<div className="day" key={day}><a href=""><div className="event q4 past"><p className="hours">{event[0].startDate.getHours()}:{event[0].startDate.getMinutes()} - {event[0].endDate.getHours()}:{event[0].endDate.getMinutes()}</p><p className="description">{event[0].firstname} {event[0].lastname}</p><span className="icon"></span></div></a></div>);
-      else
-        arr.push(<div className="day" key={day}></div>);
+        arr.push(<div className="day" key={day}><a onDragEnd={this.onDragEnd.bind(this)} onDragStart={this.onDragStart.bind(this)} href=""><div className="event q4 past"><p className="hours">{event[0].startDate.getHours()}:{event[0].startDate.getMinutes()} - {event[0].endDate.getHours()}:{event[0].endDate.getMinutes()}</p><p className="description">{event[0].firstname} {event[0].lastname}</p><span className="icon"></span></div></a></div>);
+      // else
+      //   arr.push(<div className="day" key={day}></div>);
       return arr;
     }, []);
 
@@ -57,7 +75,7 @@ class Calendar extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {workHours.map((hour) => (<tr>
+          {workHours.map((hour) => (<tr key={hour} onDragOver={this.onDragOver.bind(this)}>
             <td className="hour">{hour}:00</td>
             <td ></td>
             <td ></td>
