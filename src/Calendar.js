@@ -15,7 +15,6 @@ class Calendar extends React.Component {
   componentWillReceiveProps() {
     this.setState({days: []}, () => {
       this.createEvents();
-      this.forceUpdate();
     });
   }
 
