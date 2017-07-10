@@ -63,20 +63,24 @@ class Calendar extends React.Component {
   }
 
   renderEvents(hour) {
-    let days = [];
+    let events = [];
+    const days = [1,2,3,4,5,6,7];
 
-    for(let i=0; i<7; i++) {
-      let day = this.state.days.filter(event=> (event.event[0].startDate.getHours()===parseInt(hour, 10) && event.event[0].startDate.getDay()===i));
-      if(day[0] !== undefined)
-        days.push(<td key={i}>{day[0].item}</td>);
-      else
-        days.push(<td key={i} onDragOver={this.onDragOver.bind(this)}><span id="hour" hidden="true">{hour}</span><span id="day" hidden="true">{i+8}</span></td>);
-    }
+    events = days.reduce((arr, currDay) => {
+      let day = this.state.days.filter(event => (event.event[0].startDate.getHours()===parseInt(hour, 10) && event.event[0].startDate.getDay()===currDay));
+
+      if(day.length > 0) {
+        arr.push(<td key={currDay}>{day[0].item}</td>);
+      } else {
+        arr.push(<td key={currDay} onDragOver={this.onDragOver.bind(this)}><span id="hour" hidden="true">{hour}</span><span id="day" hidden="true">{currDay+8}</span></td>);
+      }
+      return arr;
+    }, []);
 
     return (
       <tr key={hour}>
         <td className="hour">{hour}:00</td>
-        {days.map(day=> day)}
+        {events.map(day=> day)}
       </tr>
     )
   }
