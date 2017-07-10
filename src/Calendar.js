@@ -52,14 +52,14 @@ class Calendar extends React.Component {
 
     let items = days.reduce((arr,day) => {
       let event = events.filter(event => event.day === day);
-      if(event[0]) {
+      if(event.length > 0) {
         let item = <Event event={event} target={this.state.target} updateData={this.updateData.bind(this)}/>;
-
-        this.state.days.push({event: event, item: item});
-        this.setState({days: this.state.days});
+        arr.push({event, item});
       }
       return arr;
     }, []);
+
+    this.setState({days: items});
   }
 
   renderEvents(hour) {
